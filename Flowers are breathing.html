@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>夜荧花</title>
+<style type="text/css">
+	body{padding:0;margin:0;}
+</style>
+</head>
+
+<body>
+	<div>	        	
+    	<canvas id="canvas" style="display:block;">您当前浏览器版本过低，请用其它浏览器打开</canvas>        
+    </div>
+    <script type="text/javascript">
+        var canvas=document.getElementById('canvas');
+        var context=canvas.getContext('2d');
+        canvas.width=document.documentElement.clientWidth;
+        canvas.height=document.documentElement.clientHeight;
+		var canvasW=canvas.width;
+		var canvasH=canvas.height;
+		var timer=null;
+        var img=new Image();
+				
+		window.onload=function(){
+			var a,r=95;
+			clearInterval(timer);				
+			timer=setInterval(function(){
+				context.clearRect(0,0,canvasW,canvasH);						
+				drawFlower(canvasW/3,canvasH/3,r,r/2,'green','green','#00bc12');
+				drawFlower(canvasW/2,canvasH/2,r/2,r/2,'green','green','#00bc12');
+				drawFlower(canvasW/3+100,canvasH/3+200,r/3,r/2,'green','green','#00bc12');
+				drawFlower(canvasW/3+400,canvasH/3+100,r/2.3,r/2-100,'green','green','#00bc12');
+				drawFlower(canvasW/3+500,canvasH/3+240,r/3.2,r/2.3+50,'green','green','#00bc12');
+				drawFlower(canvasW/3+650,canvasH/3+150,r/3,r/2-100,'green','green','#00bc12');
+				drawFlower(canvasW/3-200,canvasH/3+250,r/3.7,r/2,'green','green','#00bc12');	
+				drawFlower(canvasW/3-300,canvasH/3+100,r/1.5,r/2+100,'green','green','#00bc12');					
+				if(r==95){a=true;}else if(r==115){a=false;}
+				if(a){r++;}else{r--;}
+				},30);												
+		}//window.onload结束     	
+
+		//绘制花朵图形
+		function drawFlower(x,y,radius,temp,color1,color2,color3){
+			//绘制花
+			var grd=context.createRadialGradient(x,y,0,x,y,radius);
+			for(var i=1;i<=5;i++){
+				grd.addColorStop(i/5,'rgb('+(255-30*i)+','+(230+20*i)+','+(100+34*i)+')');
+				}			
+			
+			/*var grd=context.createRadialGradient(x,y,0,x,y,radius);			
+			grd.addColorStop(0.2,'rgb(255,230,100)');
+			grd.addColorStop(0.4,'rgb(178,240,145)');
+			grd.addColorStop(0.6,'rgb(152,220,195)');
+			grd.addColorStop(0.8,'rgb(126,200,225)');
+			grd.addColorStop(1,'rgb(100,180,255)');*/					
+            context.save();
+            context.beginPath();
+            context.arc(x,y,radius,0,Math.PI*2);
+            context.fillStyle=grd;	
+            context.fill();
+			context.closePath();
+            context.restore();
+
+			//绘制茎
+			context.save();
+            context.beginPath();
+			context.moveTo(x,3*y);
+            <!--context.bezierCurveTo(x+temp-50,3*y-100,x+temp,3*y-200,x,y);-->
+			context.bezierCurveTo(x+temp-50,3*y-100,x+temp,3*y-200,x,y);
+			context.globalCompositeOperation='destination-over';
+			context.lineWidth=3;
+			context.strokeStyle=color1;
+            context.stroke();
+			context.closePath();
+            context.restore();
+			
+			//绘制右边叶子
+			context.save();
+            context.beginPath();
+			context.moveTo(x,3*y);
+			context.quadraticCurveTo(x+temp,3*y-200+temp*1.5,x+200+temp*0.5,3*y-200+temp*1.5);
+            context.bezierCurveTo(x+temp+130,3*y-100+temp,x+150+temp,3*y-100+temp,x,3*y);
+			context.globalCompositeOperation='destination-over';
+			context.fillStyle=color2;
+			context.shadowColor='#333';
+			context.shadowOffsetX=5;
+			context.shadowOffsetY=10;
+			context.shadowBlur=10;
+			context.globalCompositeOperation='source-over';
+            context.fill();
+			context.closePath();
+            context.restore();
+			
+			//绘制左边叶子
+			context.save();			
+			context.beginPath();
+			context.moveTo(x,y*3);
+			context.quadraticCurveTo(x+temp*0.8-100,y*3-200+temp*1.5,x-200+temp,y*3-150+temp*1.2);
+            context.bezierCurveTo(x+temp-200,y*3-100+temp,x-150+temp,y*3-100+temp,x,y*3);
+			context.globalCompositeOperation='destination-over';			
+			context.fillStyle=color3;
+            context.fill();
+			context.closePath();
+            context.restore();
+			}
+		//绘制花朵图形
+				
+</script>
+</body>
+</html>
